@@ -13,7 +13,7 @@ def get_profile(user_name):
 def get_linkedin_profile(url):
     s = LinkedinScrapper(linkedin_username="mataj2209@gmail.com",
                          linkedin_password="fullstackoverflow",
-                         profile_url=dulanto_profile,
+                         profile_url=url,
                          headless=False)
 
     s.start()

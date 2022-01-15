@@ -5,3 +5,7 @@ graphene-django
 django-filter
 requests
 django-cors-headers
+selenium
+chromedriver_binary
+tqdm
+webdriver-manager

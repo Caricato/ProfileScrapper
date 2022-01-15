@@ -1,5 +1,6 @@
 from threading import Thread
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import WebDriverException
@@ -16,7 +17,6 @@ class LinkedinScrapper(Thread):
     def __init__(self, linkedin_username, linkedin_password, profile_url, headless=False):
         Thread.__init__(self)
 
-        service = Service("C:/Users/JUANDIEGO/Downloads/chromedriver.exe")
         # Creation of a new instance of Chrome
         options = webdriver.ChromeOptions()
         options.add_argument('--no-sandbox')
@@ -25,7 +25,7 @@ class LinkedinScrapper(Thread):
             options.add_argument('--headless')
         options.add_argument("--disable-gpu")
 
-        self.browser = webdriver.Chrome(service=service, options=options)
+        self.browser = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
         self.profile_url = profile_url
 
@@ -39,7 +39,7 @@ class LinkedinScrapper(Thread):
         # Login in LinkedIn
         self.browser.get('https://www.linkedin.com/login')
 
-        self.browser.find_element(By.ID, "username").send_keys("mataj2209@gmail.com")
+        self.browser.find_element(By.ID, "username").send_keys("mataj2208@gmail.com")
         self.browser.find_element(By.ID, "password").send_keys("fullstackoverflow")
         self.browser.find_elements(By.XPATH, "//*[@id=\"organic-div\"]/form/div[3]/button")[0].click()
 
