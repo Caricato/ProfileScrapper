@@ -1,0 +1,86 @@
+schema {
+  query: Query
+  mutation: Mutations
+}
+
+input GetGithubInput {
+  userName: String!
+  clientMutationId: String
+}
+
+type GetGithubPayload {
+  profile: GitHubProfileNode
+  clientMutationId: String
+}
+
+input GetLinkedinInput {
+  url: String!
+  clientMutationId: String
+}
+
+type GetLinkedinPayload {
+  profile: LinkedinProfileNode
+  clientMutationId: String
+}
+
+type GitHubProfileNode implements Node {
+  id: ID!
+  name: String!
+}
+
+type GitHubProfileNodeConnection {
+  pageInfo: PageInfo!
+  edges: [GitHubProfileNodeEdge]!
+}
+
+type GitHubProfileNodeEdge {
+  node: GitHubProfileNode
+  cursor: String!
+}
+
+type LinkedinProfileNode implements Node {
+  id: ID!
+  name: String!
+  imgSrc: String!
+  currentLocation: String!
+  email: String!
+}
+
+type Mutations {
+  getGithub(input: GetGithubInput!): GetGithubPayload
+  getLinkedin(input: GetLinkedinInput!): GetLinkedinPayload
+}
+
+interface Node {
+  id: ID!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type PersonNode implements Node {
+  id: ID!
+  name: String!
+  email: String!
+}
+
+type PersonNodeConnection {
+  pageInfo: PageInfo!
+  edges: [PersonNodeEdge]!
+}
+
+type PersonNodeEdge {
+  node: PersonNode
+  cursor: String!
+}
+
+type Query {
+  person(id: ID!): PersonNode
+  allPeople(offset: Int, before: String, after: String, first: Int, last: Int, name: String, name_Icontains: String, name_Istartswith: String, email: String, email_Icontains: String): PersonNodeConnection
+  githubProfile(id: ID!): GitHubProfileNode
+  allGithubProfiles(offset: Int, before: String, after: String, first: Int, last: Int, name: String): GitHubProfileNodeConnection
+}
