@@ -3,7 +3,7 @@ from graphene import relay, ObjectType, Schema
 from graphene_django import DjangoObjectType
 from .models import Person, GitHubProfile
 from .services import get_profile
-
+from graphene_django.filter import DjangoFilterConnectionField
 
 # Node is a Type for GraphQL
 class PersonNode(DjangoObjectType):
@@ -50,8 +50,11 @@ class GetGithub(relay.ClientIDMutation):
 # Queries for the endpoint
 class Query(ObjectType):
     person = relay.Node.Field(PersonNode)
+    all_people = DjangoFilterConnectionField(PersonNode)
+
+    github_profile = relay.Node.Field(GitHubProfileNode)
+    all_github_profiles = DjangoFilterConnectionField(GitHubProfileNode)
     # To add support for multiple people queries
-    # people = DjangoFilterConnectionField(AuthorNode)
 
 
 # Mutations changes the DB
