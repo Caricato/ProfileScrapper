@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<942de37ea7a00bfb0b1a91429f07a2b5>>
+ * @generated SignedSource<<a30281a4ead871d3aeb46f7f39b73623>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,11 +9,11 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
-export type AppLinkedInProfileGetMutation$variables = {
+export type appRootLinkedInProfileGetMutation$variables = {
   url: string;
 };
-export type AppLinkedInProfileGetMutationVariables = AppLinkedInProfileGetMutation$variables;
-export type AppLinkedInProfileGetMutation$data = {
+export type appRootLinkedInProfileGetMutationVariables = appRootLinkedInProfileGetMutation$variables;
+export type appRootLinkedInProfileGetMutation$data = {
   readonly getLinkedin: {
     readonly profile: {
       readonly name: string;
@@ -23,10 +23,10 @@ export type AppLinkedInProfileGetMutation$data = {
     } | null;
   } | null;
 };
-export type AppLinkedInProfileGetMutationResponse = AppLinkedInProfileGetMutation$data;
-export type AppLinkedInProfileGetMutation = {
-  variables: AppLinkedInProfileGetMutationVariables;
-  response: AppLinkedInProfileGetMutation$data;
+export type appRootLinkedInProfileGetMutationResponse = appRootLinkedInProfileGetMutation$data;
+export type appRootLinkedInProfileGetMutation = {
+  variables: appRootLinkedInProfileGetMutationVariables;
+  response: appRootLinkedInProfileGetMutation$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -83,7 +83,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "AppLinkedInProfileGetMutation",
+    "name": "appRootLinkedInProfileGetMutation",
     "selections": [
       {
         "alias": null,
@@ -119,7 +119,7 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "AppLinkedInProfileGetMutation",
+    "name": "appRootLinkedInProfileGetMutation",
     "selections": [
       {
         "alias": null,
@@ -157,16 +157,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "f2a0d64289b736ec76b05ef34c9f6998",
+    "cacheID": "e532af657a773e2a8d555b10e6e67624",
     "id": null,
     "metadata": {},
-    "name": "AppLinkedInProfileGetMutation",
+    "name": "appRootLinkedInProfileGetMutation",
     "operationKind": "mutation",
-    "text": "mutation AppLinkedInProfileGetMutation(\n  $url: String!\n) {\n  getLinkedin(input: {url: $url}) {\n    profile {\n      name\n      imgSrc\n      currentLocation\n      email\n      id\n    }\n  }\n}\n"
+    "text": "mutation appRootLinkedInProfileGetMutation(\n  $url: String!\n) {\n  getLinkedin(input: {url: $url}) {\n    profile {\n      name\n      imgSrc\n      currentLocation\n      email\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "eac9c3a0f31ea66138378835e9d39e36";
+(node as any).hash = "9541d1dddafec0a7d3f8179ec612c400";
 
 export default node;

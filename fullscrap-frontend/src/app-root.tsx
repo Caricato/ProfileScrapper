@@ -12,8 +12,8 @@ import RelayEnvironment from "./relay/RelayEnvironment";
 const { Suspense } = React;
 
 // Define a query
-export const AppLinkedInProfileGetMutation = graphql`
-  mutation AppLinkedInProfileGetMutation($url: String!) {
+export const AppRootLinkedInProfileGetMutation = graphql`
+  mutation appRootLinkedInProfileGetMutation($url: String!) {
     getLinkedin(input: { url: $url }) {
       profile {
         name
@@ -29,7 +29,7 @@ export const AppLinkedInProfileGetMutation = graphql`
 // into our routing configuration, preloading data as we transition to new routes.
 const preloadedQuery = loadQuery(
   RelayEnvironment,
-  AppLinkedInProfileGetMutation,
+  AppRootLinkedInProfileGetMutation,
   {
     url: "https://www.linkedin.com/in/rodrigodulanto/",
   }

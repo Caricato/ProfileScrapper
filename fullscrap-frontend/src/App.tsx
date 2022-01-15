@@ -1,12 +1,15 @@
 import React from "react";
 import { usePreloadedQuery } from "react-relay/hooks";
-import { AppLinkedInProfileGetMutation } from "./app-root";
+import { AppRootLinkedInProfileGetMutation } from "./app-root";
 import "./App.scss";
 
 function App(props: any) {
   const {
     getLinkedin: { profile },
-  } = usePreloadedQuery(AppLinkedInProfileGetMutation, props.preloadedQuery);
+  } = usePreloadedQuery(
+    AppRootLinkedInProfileGetMutation,
+    props.preloadedQuery
+  );
 
   return (
     <div className="App">
