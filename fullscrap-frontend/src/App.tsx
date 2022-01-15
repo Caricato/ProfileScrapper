@@ -1,24 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { usePreloadedQuery } from "react-relay/hooks";
+import { AppLinkedInProfileGetMutation } from "./app-root";
+import "./App.scss";
 
-function App() {
+function App(props: any) {
+  const {
+    getLinkedin: { profile },
+  } = usePreloadedQuery(AppLinkedInProfileGetMutation, props.preloadedQuery);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Hola {profile.name} </h1>
+      <img src={profile.imgSrc} />
+      <p>Tu correo es: {profile.email}</p>
+      <p>Tu ubicación es: {profile.currentLocation}</p>
     </div>
   );
 }
