@@ -1,3 +1,4 @@
+import graphene
 from django.db import models
 
 
@@ -19,11 +20,41 @@ class GitHubProfile(models.Model):
         return f'{self.name}'
 
 
+class LinkedinSkill(models.Model):
+    name = models.CharField(max_length=200)  # name
+
+
+class LinkedinJob(models.Model):
+    designation = models.CharField(max_length=200)
+    company = models.CharField(max_length=200)
+    company_url = models.URLField()
+    company_image_url = models.URLField()
+    area = models.CharField(max_length=200)
+    from_month = models.CharField(max_length=200)
+    from_year = models.CharField(max_length=200)
+    to_month = models.CharField(max_length=200, null=True)
+    to_year = models.CharField(max_length=200, null=True)
+
+
+class LinkedinEducation(models.Model):
+    degree = models.CharField(max_length=200)
+    major = models.CharField(max_length=200)
+    grade = models.CharField(max_length=200)
+    from_year = models.CharField(max_length=200)
+    to_year = models.CharField(max_length=200)
+    university = models.CharField(max_length=200)
+    university_url = models.URLField()
+    university_image_url = models.URLField()
+
+
 class LinkedinProfile(models.Model):
     name = models.CharField(max_length=200)  # name
     img_src = models.CharField(max_length=500)
     current_location = models.CharField(max_length=200)
     email = models.CharField(max_length=200)
+    jobs = models.ManyToManyField(LinkedinJob)
+    skills = models.ManyToManyField(LinkedinSkill)
+    # education = models.ManyToManyField(LinkedinEducation, related_name='education')
 
 
 class User(models.Model):

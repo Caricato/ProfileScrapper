@@ -8,7 +8,8 @@ import chromedriver_binary
 from tqdm import tqdm
 import urllib.parse
 import time
-from .utils import Profile, DetailProfile, ScrapingException, is_url_valid, HumanCheckException, wait_for_loading, wait_for_scrolling, \
+from .utils import Profile, DetailProfile, ScrapingException, is_url_valid, HumanCheckException, wait_for_loading, \
+    wait_for_scrolling, \
     Job, AuthenticationException, Location, Company, ScrapingResult
 
 
@@ -148,12 +149,12 @@ class LinkedinScrapper(Thread):
 
     def scrape_detail_info(self):
         detail_info = DetailProfile("", "")
-        email, github = self.scrape_email()
+        email, github = self._scrape_detail_info()
         detail_info.email = email
         detail_info.github = github
         return detail_info
 
-    def scrape_email(self):
+    def _scrape_detail_info(self):
         # print("scrape email")
         # > click on 'Contact info' link on the page
         button = self.browser.find_element(By.CSS_SELECTOR, ".pv-text-details__separator > a.ember-view")
@@ -166,12 +167,17 @@ class LinkedinScrapper(Thread):
         wait_for_loading()
 
         # > gets email from the 'Contact info' popup
+
         try:
-            email = self.browser.find_element(By.CSS_SELECTOR, "a.pv-contact-info__contact-link").get_attribute(
+            email = self.browser.find_element(By.CSS_SELECTOR,
+                                              "section.ci-email a.pv-contact-info__contact-link").get_attribute(
                 "innerText")
-            github_account = self.browser.find_element(By.XPATH, "//a[contains(@href, 'https://github.com/')]").text
         except WebDriverException:
             email = ''
+
+        try:
+            github_account = self.browser.find_element(By.XPATH, "//a[contains(@href, 'https://github.com/')]").text
+        except WebDriverException:
             github_account = ''
 
         try:
@@ -190,31 +196,35 @@ class LinkedinScrapper(Thread):
 
         for item in elements:
             data = {}
-            data['designation'] = item.find_element(By.CSS_SELECTOR, ".pv-entity__summary-info > h3").get_attribute(
-                "innerText")
-            all_text = item.find_element(By.CSS_SELECTOR, ".pv-entity__secondary-title").get_attribute("innerText")
-            child_text = item.find_element(By.CSS_SELECTOR, ".pv-entity__secondary-title > span").get_attribute(
-                "innerText")
-            data['company'] = all_text.replace(child_text, '')
-            data['company_url'] = item.find_element(By.CSS_SELECTOR,
-                                                    ".pv-profile-section__card-item-v2 a.ember-view").get_attribute(
-                "href")
-            data['company_image_url'] = item.find_element(By.CSS_SELECTOR, ".pv-entity__logo > img").get_attribute(
-                "src")
-            data['area'] = item.find_element(By.CSS_SELECTOR, ".pv-entity__location > span:last-child").get_attribute(
-                "innerText")
-            from_dates, to_dates = item.find_element(By.CSS_SELECTOR,
-                                                     ".pv-entity__date-range > span:last-child").get_attribute(
-                "innerText").split(" – ")
-            if from_dates:
-                data['from_month'], data['from_year'] = from_dates.split()
-            else:
-                data['from_month'] = data['from_year'] = None
-            if to_dates and len(to_dates.split()) > 1:
-                data['to_month'], data['to_year'] = to_dates.split()
-            else:
-                data['to_month'], data['to_year'] = None, 'Present'
-            details.append(data)
+            try:
+                data['designation'] = item.find_element(By.CSS_SELECTOR, ".pv-entity__summary-info > h3").get_attribute(
+                    "innerText")
+                all_text = item.find_element(By.CSS_SELECTOR, ".pv-entity__secondary-title").get_attribute("innerText")
+                child_text = item.find_element(By.CSS_SELECTOR, ".pv-entity__secondary-title > span").get_attribute(
+                    "innerText")
+                data['company'] = all_text.replace(child_text, '')
+                data['company_url'] = item.find_element(By.CSS_SELECTOR,
+                                                        ".pv-profile-section__card-item-v2 a.ember-view").get_attribute(
+                    "href")
+                data['company_image_url'] = item.find_element(By.CSS_SELECTOR, ".pv-entity__logo > img").get_attribute(
+                    "src")
+                data['area'] = item.find_element(By.CSS_SELECTOR,
+                                                 ".pv-entity__location > span:last-child").get_attribute(
+                    "innerText")
+                from_dates, to_dates = item.find_element(By.CSS_SELECTOR,
+                                                         ".pv-entity__date-range > span:last-child").get_attribute(
+                    "innerText").split(" – ")
+                if from_dates:
+                    data['from_month'], data['from_year'] = from_dates.split()
+                else:
+                    data['from_month'] = data['from_year'] = None
+                if to_dates and len(to_dates.split()) > 1:
+                    data['to_month'], data['to_year'] = to_dates.split()
+                else:
+                    data['to_month'], data['to_year'] = None, 'Present'
+                details.append(data)
+            except WebDriverException:
+                pass
 
         return details
 
