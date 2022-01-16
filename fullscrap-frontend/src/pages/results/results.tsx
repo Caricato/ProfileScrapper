@@ -19,19 +19,57 @@ import {
   faTwitter,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ModalSearch from "../../components/modal-search/modal-search";
+import { graphql } from "babel-plugin-relay/macro";
+import { useMutation } from "react-relay";
 
 export const Results = () => {
+  const navigate = useNavigate();
   const [value, setValue] = useState(0);
   const [isModalActive, setIsModalActive] = useState(false);
   const { url } = useParams();
   const [linkedinUrl, setLinkedinUrl] = useState("");
+  const [linkedinData, setLinkedinData] = useState<any>();
+
+  const [commit, isLoading] = useMutation(graphql`
+    mutation resultsLinkedInProfileGetMutation($url: String!) {
+      getLinkedin(input: { url: $url }) {
+        profile {
+          name
+          imgSrc
+          currentLocation
+          email
+        }
+        skills {
+          name
+        }
+        education {
+          degree
+        }
+      }
+    }
+  `);
 
   useEffect(() => {
-    console.log(atob(url || ""));
-    setLinkedinUrl(atob(url || ""));
-  }, [url]);
+    if (!url) navigate("");
+    else setLinkedinUrl(atob(url));
+  }, [url, navigate]);
+
+  useEffect(() => {
+    if (!linkedinUrl) return;
+    commit({
+      variables: { url: linkedinUrl },
+      onCompleted(data: any) {
+        if (data?.getLinkedin) {
+          setLinkedinData(data.getLinkedin);
+        } else alert("Error cargando");
+      },
+      onError(data: any) {
+        alert("Error");
+      },
+    });
+  }, [linkedinUrl, commit]);
 
   const tabs = [
     {
@@ -122,6 +160,8 @@ export const Results = () => {
     setIsModalActive(!isModalActive);
   };
 
+  if (isLoading) return <div>Loading...</div>;
+
   return (
     <div className="results">
       <div className="results__container">
@@ -145,7 +185,7 @@ export const Results = () => {
                 alt="Profile"
               />
               <div className="results__main__profile__data">
-                <p className="name">Rodrigo Fermin Dulanto Chicana</p>
+                <p className="name">{linkedinData?.profile?.name || ""}</p>
                 <p className="title">Gerente de TI - Microsoft India</p>
                 <p className="phone">978 784 331</p>
                 <p className="location">Lima, Perú</p>

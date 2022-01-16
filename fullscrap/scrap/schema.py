@@ -68,6 +68,14 @@ class LinkedinEducationNode(DjangoObjectType):
         interfaces = (relay.Node,)
 
 
+class LinkedinProfileNode(DjangoObjectType):
+    class Meta:
+        model = LinkedinProfile
+        filter_fields = {
+            'name': ['exact']
+        }
+        interfaces = (relay.Node,)
+
 
 # ==========
 # Mutations

@@ -37,7 +37,6 @@ const Seeker = () => {
     commit({
       variables: { url: url },
       onCompleted(data: any) {
-        console.log(data);
         if (data.getLinkedin) navigate(`result/${btoa(url)}`);
         else alert("Error cargando");
       },
