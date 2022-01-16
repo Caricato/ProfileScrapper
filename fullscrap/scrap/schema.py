@@ -6,6 +6,7 @@ from graphene_django import DjangoObjectType
 from .models import Person, GitHubProfile, LinkedinProfile, User, LinkedinSkill, LinkedinJob, LinkedinEducation
 from .services import get_profile, get_linkedin_profile
 from graphene_django.filter import DjangoFilterConnectionField
+from .exceptions import ProfileUnavailable
 
 
 # Node is a Type for GraphQL
@@ -76,8 +77,6 @@ class LinkedinProfileNode(DjangoObjectType):
         interfaces = (relay.Node,)
 
 
-
-
 # ==========
 # Mutations
 # ==========
@@ -115,8 +114,11 @@ class GetLinkedin(relay.ClientIDMutation):
     def mutate_and_get_payload(cls, root, info, **input):
         url = input['url']
         profile = get_linkedin_profile(url)
-        return GetLinkedin(profile=profile, skills=profile.skills.all(), jobs=profile.jobs.all(),
-                           education=profile.education.all())
+        if profile is None:
+            raise ProfileUnavailable()
+        else:
+            return GetLinkedin(profile=profile, skills=profile.skills.all(), jobs=profile.jobs.all(),
+                               education=profile.education.all())
 
 
 # Queries for the endpoint

@@ -49,6 +49,7 @@ class LinkedinEducation(models.Model):
 
 class LinkedinProfile(models.Model):
     name = models.CharField(max_length=200)  # name
+    profile_url = models.URLField()
     img_src = models.CharField(max_length=500)
     current_location = models.CharField(max_length=200)
     email = models.CharField(max_length=200)
