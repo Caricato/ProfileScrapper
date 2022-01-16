@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<618723bbffdad18a3b8c5371d2acfaaf>>
+ * @generated SignedSource<<12ed482cd8df55e6b9a9a32cbdb0c45a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -26,6 +26,22 @@ export type resultsLinkedInProfileGetMutation$data = {
     } | null> | null;
     readonly education: ReadonlyArray<{
       readonly degree: string;
+      readonly major: string;
+      readonly fromYear: string;
+      readonly toYear: string;
+      readonly university: string;
+      readonly universityUrl: string;
+      readonly universityImageUrl: string;
+    } | null> | null;
+    readonly jobs: ReadonlyArray<{
+      readonly designation: string;
+      readonly company: string;
+      readonly companyUrl: string;
+      readonly companyImageUrl: string;
+      readonly fromMonth: string;
+      readonly fromYear: string;
+      readonly toMonth: string | null;
+      readonly toYear: string | null;
     } | null> | null;
   } | null;
 };
@@ -95,6 +111,90 @@ v7 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
+  "name": "major",
+  "storageKey": null
+},
+v8 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "fromYear",
+  "storageKey": null
+},
+v9 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "toYear",
+  "storageKey": null
+},
+v10 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "university",
+  "storageKey": null
+},
+v11 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "universityUrl",
+  "storageKey": null
+},
+v12 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "universityImageUrl",
+  "storageKey": null
+},
+v13 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "designation",
+  "storageKey": null
+},
+v14 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "company",
+  "storageKey": null
+},
+v15 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "companyUrl",
+  "storageKey": null
+},
+v16 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "companyImageUrl",
+  "storageKey": null
+},
+v17 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "fromMonth",
+  "storageKey": null
+},
+v18 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "toMonth",
+  "storageKey": null
+},
+v19 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 };
@@ -148,7 +248,32 @@ return {
             "name": "education",
             "plural": true,
             "selections": [
-              (v6/*: any*/)
+              (v6/*: any*/),
+              (v7/*: any*/),
+              (v8/*: any*/),
+              (v9/*: any*/),
+              (v10/*: any*/),
+              (v11/*: any*/),
+              (v12/*: any*/)
+            ],
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "LinkedinJobNode",
+            "kind": "LinkedField",
+            "name": "jobs",
+            "plural": true,
+            "selections": [
+              (v13/*: any*/),
+              (v14/*: any*/),
+              (v15/*: any*/),
+              (v16/*: any*/),
+              (v17/*: any*/),
+              (v8/*: any*/),
+              (v18/*: any*/),
+              (v9/*: any*/)
             ],
             "storageKey": null
           }
@@ -185,7 +310,7 @@ return {
               (v3/*: any*/),
               (v4/*: any*/),
               (v5/*: any*/),
-              (v7/*: any*/)
+              (v19/*: any*/)
             ],
             "storageKey": null
           },
@@ -198,7 +323,7 @@ return {
             "plural": true,
             "selections": [
               (v2/*: any*/),
-              (v7/*: any*/)
+              (v19/*: any*/)
             ],
             "storageKey": null
           },
@@ -211,7 +336,33 @@ return {
             "plural": true,
             "selections": [
               (v6/*: any*/),
-              (v7/*: any*/)
+              (v7/*: any*/),
+              (v8/*: any*/),
+              (v9/*: any*/),
+              (v10/*: any*/),
+              (v11/*: any*/),
+              (v12/*: any*/),
+              (v19/*: any*/)
+            ],
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "LinkedinJobNode",
+            "kind": "LinkedField",
+            "name": "jobs",
+            "plural": true,
+            "selections": [
+              (v13/*: any*/),
+              (v14/*: any*/),
+              (v15/*: any*/),
+              (v16/*: any*/),
+              (v17/*: any*/),
+              (v8/*: any*/),
+              (v18/*: any*/),
+              (v9/*: any*/),
+              (v19/*: any*/)
             ],
             "storageKey": null
           }
@@ -221,16 +372,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "931fa79ee3ed3930c705c48ff27d842f",
+    "cacheID": "af7e281be5990495f456353c69c8e4e7",
     "id": null,
     "metadata": {},
     "name": "resultsLinkedInProfileGetMutation",
     "operationKind": "mutation",
-    "text": "mutation resultsLinkedInProfileGetMutation(\n  $url: String!\n) {\n  getLinkedin(input: {url: $url}) {\n    profile {\n      name\n      imgSrc\n      currentLocation\n      email\n      id\n    }\n    skills {\n      name\n      id\n    }\n    education {\n      degree\n      id\n    }\n  }\n}\n"
+    "text": "mutation resultsLinkedInProfileGetMutation(\n  $url: String!\n) {\n  getLinkedin(input: {url: $url}) {\n    profile {\n      name\n      imgSrc\n      currentLocation\n      email\n      id\n    }\n    skills {\n      name\n      id\n    }\n    education {\n      degree\n      major\n      fromYear\n      toYear\n      university\n      universityUrl\n      universityImageUrl\n      id\n    }\n    jobs {\n      designation\n      company\n      companyUrl\n      companyImageUrl\n      fromMonth\n      fromYear\n      toMonth\n      toYear\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "3933e14d593f79a61287a73c4938e853";
+(node as any).hash = "c205512abbaf8d0cc8e4e8d7204a0860";
 
 export default node;

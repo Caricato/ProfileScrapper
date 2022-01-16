@@ -2,6 +2,7 @@ import { Dialog } from "@blueprintjs/core";
 import { graphql } from "babel-plugin-relay/macro";
 import { useMutation } from "react-relay";
 import { useNavigate } from "react-router-dom";
+import Loading from "../loading/loading";
 import Search from "../search/search";
 import "./modal-search.scss";
 
@@ -27,6 +28,22 @@ const ModalSearch = ({ isOpen, onClose }: IModalSearch) => {
         }
         education {
           degree
+          major
+          fromYear
+          toYear
+          university
+          universityUrl
+          universityImageUrl
+        }
+        jobs {
+          designation
+          company
+          companyUrl
+          companyImageUrl
+          fromMonth
+          fromYear
+          toMonth
+          toYear
         }
       }
     }
@@ -47,7 +64,7 @@ const ModalSearch = ({ isOpen, onClose }: IModalSearch) => {
     });
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading />;
 
   return (
     <Dialog

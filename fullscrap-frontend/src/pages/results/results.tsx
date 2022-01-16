@@ -23,6 +23,37 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import ModalSearch from "../../components/modal-search/modal-search";
 import { graphql } from "babel-plugin-relay/macro";
 import { useMutation } from "react-relay";
+import Loading from "../../components/loading/loading";
+
+export interface ILinkedinProfile {
+  skills: { name: string; id: string }[];
+  profile: {
+    name?: string;
+    email?: string;
+    id?: string;
+    currentLocation?: string;
+    imgSrc?: string;
+  };
+  jobs: {
+    designation: string;
+    company: string;
+    companyUrl: string;
+    companyImageUrl: string;
+    fromMonth: string;
+    fromYear: string;
+    toMonth: string;
+    toYear: string;
+  }[];
+  education: {
+    degree: string;
+    major: string;
+    fromYear: string;
+    toYear: string;
+    university: string;
+    universityUrl: string;
+    universityImageUrl: string;
+  }[];
+}
 
 export const Results = () => {
   const navigate = useNavigate();
@@ -30,7 +61,7 @@ export const Results = () => {
   const [isModalActive, setIsModalActive] = useState(false);
   const { url } = useParams();
   const [linkedinUrl, setLinkedinUrl] = useState("");
-  const [linkedinData, setLinkedinData] = useState<any>();
+  const [linkedinData, setLinkedinData] = useState<ILinkedinProfile>();
 
   const [commit, isLoading] = useMutation(graphql`
     mutation resultsLinkedInProfileGetMutation($url: String!) {
@@ -46,6 +77,22 @@ export const Results = () => {
         }
         education {
           degree
+          major
+          fromYear
+          toYear
+          university
+          universityUrl
+          universityImageUrl
+        }
+        jobs {
+          designation
+          company
+          companyUrl
+          companyImageUrl
+          fromMonth
+          fromYear
+          toMonth
+          toYear
         }
       }
     }
@@ -160,7 +207,7 @@ export const Results = () => {
     setIsModalActive(!isModalActive);
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading />;
 
   return (
     <div className="results">

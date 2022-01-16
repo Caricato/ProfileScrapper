@@ -9,6 +9,7 @@ import Button from "../../components/button/button";
 import Search from "../../components/search/search";
 import "./seeker.scss";
 import { graphql } from "babel-plugin-relay/macro";
+import Loading from "../../components/loading/loading";
 const { commitMutation, useMutation } = require("react-relay");
 
 const Seeker = () => {
@@ -28,6 +29,22 @@ const Seeker = () => {
         }
         education {
           degree
+          major
+          fromYear
+          toYear
+          university
+          universityUrl
+          universityImageUrl
+        }
+        jobs {
+          designation
+          company
+          companyUrl
+          companyImageUrl
+          fromMonth
+          fromYear
+          toMonth
+          toYear
         }
       }
     }
@@ -46,7 +63,7 @@ const Seeker = () => {
     });
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading />;
 
   return (
     <div className="seeker">

@@ -2,17 +2,17 @@ import "./experience-item.scss";
 
 export interface IExperienceItem {
   companyUrl: string;
-  companyImgUrl: string;
-  companyName: string;
-  title: string;
-  time: string;
+  companyImageUrl: string;
+  company: string;
+  designation: string;
+  time?: string;
 }
 
 const ExperienceItem = ({
   companyUrl,
-  companyImgUrl,
-  companyName,
-  title,
+  companyImageUrl,
+  company,
+  designation,
   time,
 }: IExperienceItem) => {
   const onClick = () => {
@@ -21,11 +21,11 @@ const ExperienceItem = ({
 
   return (
     <li className="experience-item" onClick={onClick}>
-      <img src={companyImgUrl} alt={`${companyName}`} />
+      <img src={companyImageUrl} alt={`${company}`} />
       <div>
-        <h5>{companyName}</h5>
-        <p>{title}</p>
-        <p>{time}</p>
+        <h5>{company}</h5>
+        <p>{designation}</p>
+        <p>{time || ""} </p>
       </div>
     </li>
   );
