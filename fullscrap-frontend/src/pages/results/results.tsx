@@ -233,22 +233,20 @@ export const Results = () => {
               />
               <div className="results__main__profile__data">
                 <p className="name">{linkedinData?.profile?.name || ""}</p>
-                <p className="title">Gerente de TI - Microsoft India</p>
-                <p className="phone">978 784 331</p>
-                <p className="location">Lima, Perú</p>
+                {/* <p className="title">{linkedinData.}</p> */}
+                {/* <p className="phone">978 784 331</p> */}
+                <p className="location">
+                  {linkedinData?.profile?.currentLocation}
+                </p>
                 <a
                   className="email"
-                  href="mailto:rodrigo.dulanto@pucp.edu.pe"
+                  href={`mailto:${linkedinData?.profile?.email}`}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  rodrigo.dulanto@pucp.edu.pe
+                  {linkedinData?.profile?.email}
                 </a>
-                <Link
-                  target="_blank"
-                  to={"//www.linkedin.com/in/rodrigodulanto"}
-                  rel="noreferrer"
-                >
+                <Link target="_blank" to={linkedinUrl} rel="noreferrer">
                   Ver LinkedIn
                 </Link>
               </div>
@@ -264,7 +262,7 @@ export const Results = () => {
               className="results__main__info__about"
             >
               <div className="results__main__info__about__summary">
-                <h1>Sobre Rodrigo...</h1>
+                <h1>Sobre {linkedinData?.profile?.name}...</h1>
                 <div className="results__main__info__about__summary__content">
                   Changing the world one line of code at a time 🚀. <br />
                   <br />
@@ -309,8 +307,8 @@ export const Results = () => {
                   en su perfil
                 </p>
                 <div className="results__main__info__about__skills__list">
-                  {skills.map((item, index) => (
-                    <SkillItem key={index} name={item} />
+                  {linkedinData?.skills?.map((item, index) => (
+                    <SkillItem key={index} name={item.name} />
                   ))}
                 </div>
               </div>
@@ -325,7 +323,7 @@ export const Results = () => {
                 <strong>Rodrigo</strong> ha participado en lo siguiente:
               </p>
               <div className="results__main__info__experience__list">
-                {experiences.map((item, index) => (
+                {linkedinData?.jobs?.map((item, index) => (
                   <ExperienceItem key={index} {...item} />
                 ))}
               </div>
