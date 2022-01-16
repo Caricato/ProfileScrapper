@@ -68,15 +68,6 @@ class LinkedinEducationNode(DjangoObjectType):
         interfaces = (relay.Node,)
 
 
-class LinkedinProfileNode(DjangoObjectType):
-    class Meta:
-        model = LinkedinProfile
-        filter_fields = {
-            'name': ['exact'],
-            'profile_url': ['exact']
-        }
-        interfaces = (relay.Node,)
-
 
 # ==========
 # Mutations
@@ -129,12 +120,6 @@ class Query(ObjectType):
 
     github_profile = relay.Node.Field(GitHubProfileNode)
     all_github_profiles = DjangoFilterConnectionField(GitHubProfileNode)
-    
-    linkedin_profile = relay.Node.Field(LinkedinProfileNode, url= graphene.String())
-    
-    def resolve_linkedin_profile(root, info, **kwargs):
-        url = kwargs.get("url")
-        return LinkedinProfile.objects.get(id)
 
 
 # Mutations changes the DB
