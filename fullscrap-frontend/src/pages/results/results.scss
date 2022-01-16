@@ -1,7 +1,7 @@
 .results {
   width: 100%;
   min-height: 100%;
-  background-color: #e5e5e5;
+  background-color: hsla(228, 33%, 97%, 1);
   padding: 48px 0;
   box-sizing: border-box;
   overflow-x: hidden;
@@ -43,23 +43,41 @@
       grid-template-columns: [first] 25% [second] auto [end];
       column-gap: 32px;
 
-      &__profile {
+      &__left {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        gap: 24px;
         background-color: #ffffff;
         border-radius: 25px;
+      }
+
+      &__tabs {
+        padding: 36px 0;
+        width: 70%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      &__profile {
         padding: 50px;
         display: flex;
         align-items: center;
         flex-direction: column;
         text-align: center;
         gap: 24px;
+        border-bottom: solid 2px #6c6c6c;
 
-        & > div {
+        &__data {
           display: flex;
           align-items: center;
           flex-direction: column;
+          text-align: center;
           gap: 8px;
         }
-
         img {
           width: 70%;
           aspect-ratio: 1;
@@ -95,25 +113,106 @@
           font-size: 14px;
           color: #185678;
           word-break: break-all;
+          text-decoration: underline;
         }
 
         .linkedin-url {
           font-weight: normal;
           font-size: 18px;
           color: #185678;
+          text-decoration: underline;
         }
       }
 
       &__info {
         &__about {
-          display: flex;
-          flex-direction: column;
-          align-items: stretch;
-          justify-content: center;
-          gap: 32px;
+          &.tab-panel--active {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: center;
+            gap: 32px;
+          }
 
           &__skills,
           &__summary {
+            background-color: #ffffff;
+            text-align: left;
+            border-radius: 25px;
+            padding: 50px 75px;
+          }
+
+          &__skills {
+            &__list {
+              margin-top: 36px;
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              justify-content: flex-start;
+              column-gap: 24px;
+              row-gap: 32px;
+            }
+          }
+
+          &__summary {
+            &__content {
+              margin: 32px 0;
+            }
+          }
+        }
+
+        &__experience {
+          &.tab-panel--active {
+            color: #343534;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: center;
+            gap: 32px;
+            background-color: #ffffff;
+            text-align: left;
+            border-radius: 25px;
+            padding: 50px 75px;
+          }
+
+          &__list {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 32px;
+          }
+        }
+
+        &__education {
+          &.tab-panel--active {
+            color: #343534;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: center;
+            gap: 32px;
+            background-color: #ffffff;
+            text-align: left;
+            border-radius: 25px;
+            padding: 50px 75px;
+          }
+
+          &__list {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 32px;
+          }
+        }
+
+        &__github {
+          &.tab-panel--active {
+            color: #343534;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: center;
+            gap: 32px;
             background-color: #ffffff;
             text-align: left;
             border-radius: 25px;

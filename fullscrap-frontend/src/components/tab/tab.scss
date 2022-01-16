@@ -1,0 +1,23 @@
+.tab {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  color: hsla(240, 6%, 28%, 1);
+  cursor: pointer;
+
+  p {
+    text-align: center;
+    width: 100%;
+  }
+
+  &--disabled {
+    color: hsla(240, 6%, 28%, 0.4);
+    cursor: not-allowed;
+  }
+
+  &--active {
+    color: hsla(201, 67%, 28%, 1);
+  }
+}
