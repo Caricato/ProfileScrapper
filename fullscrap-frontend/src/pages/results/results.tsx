@@ -19,9 +19,11 @@ import {
   faTwitter,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
+import ModalSearch from "../../components/modal-search/modal-search";
 
 export const Results = () => {
   const [value, setValue] = useState(0);
+  const [isModalActive, setIsModalActive] = useState(false);
 
   useEffect(() => {
     console.log(value);
@@ -107,6 +109,15 @@ export const Results = () => {
     setValue(newValue);
   };
 
+  useEffect(() => {
+    console.log("cambnio", isModalActive);
+  }, [isModalActive]);
+
+  const onClickNewSearch = () => {
+    console.log("click jaaa");
+    setIsModalActive(!isModalActive);
+  };
+
   return (
     <div className="results">
       <div className="results__container">
@@ -117,7 +128,9 @@ export const Results = () => {
               Hecho con &lt;3 por <strong>FullStackOverflow</strong>
             </p>
           </div>
-          <Button size="small">Nueva búsqueda</Button>
+          <Button size="small" onClick={onClickNewSearch}>
+            Nueva búsqueda
+          </Button>
         </header>
 
         <main className="results__main">
@@ -250,6 +263,12 @@ export const Results = () => {
           </div>
         </main>
       </div>
+      {isModalActive && (
+        <ModalSearch
+          onClose={() => setIsModalActive(!isModalActive)}
+          isOpen={isModalActive}
+        />
+      )}
     </div>
   );
 };
