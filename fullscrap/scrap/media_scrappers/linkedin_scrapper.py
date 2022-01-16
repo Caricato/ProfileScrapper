@@ -237,26 +237,28 @@ class LinkedinScrapper(Thread):
 
         for item in elements:
             data = {}
-            data['degree'] = item.find_element(By.CSS_SELECTOR,
-                                               ".pv-entity__degree-name .pv-entity__comma-item").get_attribute(
-                "innerText")
-            data['major'] = item.find_element(By.CSS_SELECTOR,
-                                              ".pv-entity__fos.t-14.t-black.t-normal > span.pv-entity__comma-item").get_attribute(
-                "innerText")
-            data['grade'] = item.find_element(By.CSS_SELECTOR,
-                                              ".pv-entity__grade .pv-entity__comma-item").get_attribute("innerText")
-            data['from_year'], data['to_year'] = item.find_element(By.CSS_SELECTOR,
-                                                                   ".pv-entity__dates > span:last-child").get_attribute(
-                "innerText").split(" – ")
-            data['university'] = item.find_element(By.CSS_SELECTOR, ".pv-entity__school-name").get_attribute(
-                "innerText")
-            data['university_url'] = item.find_element(By.CSS_SELECTOR,
-                                                       ".pv-profile-section__card-item a.ember-view").get_attribute(
-                "href")
-            data['university_image_url'] = item.find_element(By.CSS_SELECTOR, ".pv-entity__logo > img").get_attribute(
-                "src")
-            details.append(data)
-
+            try:
+                data['degree'] = item.find_element(By.CSS_SELECTOR,
+                                                   ".pv-entity__degree-name .pv-entity__comma-item").get_attribute(
+                    "innerText")
+                data['major'] = item.find_element(By.CSS_SELECTOR,
+                                                  ".pv-entity__fos.t-14.t-black.t-normal > span.pv-entity__comma-item").get_attribute(
+                    "innerText")
+                data['grade'] = item.find_element(By.CSS_SELECTOR,
+                                                  ".pv-entity__grade .pv-entity__comma-item").get_attribute("innerText")
+                data['from_year'], data['to_year'] = item.find_element(By.CSS_SELECTOR,
+                                                                       ".pv-entity__dates > span:last-child").get_attribute(
+                    "innerText").split(" – ")
+                data['university'] = item.find_element(By.CSS_SELECTOR, ".pv-entity__school-name").get_attribute(
+                    "innerText")
+                data['university_url'] = item.find_element(By.CSS_SELECTOR,
+                                                           ".pv-profile-section__card-item a.ember-view").get_attribute(
+                    "href")
+                data['university_image_url'] = item.find_element(By.CSS_SELECTOR, ".pv-entity__logo > img").get_attribute(
+                    "src")
+                details.append(data)
+            except WebDriverException:
+                pass
         return details
 
     def scrape_skills(self):

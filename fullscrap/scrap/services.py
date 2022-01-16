@@ -1,5 +1,5 @@
 from .media_scrappers.github_scrapper import GitHubScrapper
-from .models import GitHubProfile, LinkedinProfile, LinkedinSkill, LinkedinJob
+from .models import GitHubProfile, LinkedinProfile, LinkedinSkill, LinkedinJob, LinkedinEducation
 from .media_scrappers.linkedin_scrapper import LinkedinScrapper
 
 git_root_api = "https://api.github.com"
@@ -15,7 +15,7 @@ def get_profile(user_name):
 def get_linkedin_profile(url):
     s = LinkedinScrapper(linkedin_username="mataj2209@gmail.com",
                          linkedin_password="fullstackoverflow",
-                         profile_url=dulanto_profile,
+                         profile_url=url,
                          headless=False)
 
     s.start()
@@ -32,6 +32,7 @@ def get_linkedin_profile(url):
                                                          email=profile_raw.email)
     _get_skills(profile, profile_raw.skills)
     _get_jobs(profile, profile_raw.jobs)
+    _get_education(profile, profile_raw.education)
     return profile
 
 
@@ -40,8 +41,6 @@ def _get_skills(profile, skills_raw):
         skill = LinkedinSkill(name=item)
         skill.save()
         profile.skills.add(skill)
-
-    print(profile.skills.all())
 
 
 def _get_jobs(profile, jobs_raw):
@@ -58,3 +57,18 @@ def _get_jobs(profile, jobs_raw):
         job.save()
         profile.jobs.add(job)
 
+
+def _get_education(profile, ed_raw):
+    for item in ed_raw:
+        ed = LinkedinEducation(degree=item["degree"],
+                                  major=item["major"],
+                                  grade=item["grade"],
+                                  from_year=item["from_year"],
+                                  to_year=item["to_year"],
+                                  university=item["university"],
+                                  university_url=item["university_url"],
+                                  university_image_url=item["university_image_url"])
+        ed.save()
+        profile.education.add(ed)
+
+    print(profile.education.all())

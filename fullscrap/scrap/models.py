@@ -54,7 +54,7 @@ class LinkedinProfile(models.Model):
     email = models.CharField(max_length=200)
     jobs = models.ManyToManyField(LinkedinJob)
     skills = models.ManyToManyField(LinkedinSkill)
-    # education = models.ManyToManyField(LinkedinEducation, related_name='education')
+    education = models.ManyToManyField(LinkedinEducation)
 
 
 class User(models.Model):

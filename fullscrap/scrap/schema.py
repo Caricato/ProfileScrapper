@@ -3,7 +3,7 @@ from collections import defaultdict
 import graphene
 from graphene import relay, ObjectType, Schema
 from graphene_django import DjangoObjectType
-from .models import Person, GitHubProfile, LinkedinProfile, User, LinkedinSkill, LinkedinJob
+from .models import Person, GitHubProfile, LinkedinProfile, User, LinkedinSkill, LinkedinJob, LinkedinEducation
 from .services import get_profile, get_linkedin_profile
 from graphene_django.filter import DjangoFilterConnectionField
 
@@ -61,6 +61,12 @@ class LinkedinJobNode(DjangoObjectType):
         interfaces = (relay.Node,)
 
 
+class LinkedinEducationNode(DjangoObjectType):
+    class Meta:
+        model = LinkedinEducation
+        interfaces = (relay.Node,)
+
+
 class LinkedinProfileNode(DjangoObjectType):
     class Meta:
         model = LinkedinProfile
@@ -101,6 +107,7 @@ class GetLinkedin(relay.ClientIDMutation):
     profile = graphene.Field(LinkedinProfileNode)
     skills = graphene.List(LinkedinSkillNode)
     jobs = graphene.List(LinkedinJobNode)
+    education = graphene.List(LinkedinEducationNode)
 
     # https://docs.graphene-python.org/en/latest/relay/mutations/
 
@@ -108,7 +115,8 @@ class GetLinkedin(relay.ClientIDMutation):
     def mutate_and_get_payload(cls, root, info, **input):
         url = input['url']
         profile = get_linkedin_profile(url)
-        return GetLinkedin(profile=profile, skills=profile.skills.all(), jobs = profile.jobs.all())
+        return GetLinkedin(profile=profile, skills=profile.skills.all(), jobs=profile.jobs.all(),
+                           education=profile.education.all())
 
 
 # Queries for the endpoint
