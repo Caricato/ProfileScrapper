@@ -19,6 +19,7 @@ import {
   faTwitter,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
+import { Link } from "react-router-dom";
 
 export const Results = () => {
   const [value, setValue] = useState(0);
@@ -114,7 +115,7 @@ export const Results = () => {
           <div>
             <h1>FullScrap</h1>
             <p>
-              Hecho con &lt;3 por <strong>FullStackOverflow</strong>
+              Hecho con ❤️ por <strong>FullStackOverflow</strong>
             </p>
           </div>
           <Button size="small">Nueva búsqueda</Button>
@@ -132,15 +133,21 @@ export const Results = () => {
                 <p className="title">Gerente de TI - Microsoft India</p>
                 <p className="phone">978 784 331</p>
                 <p className="location">Lima, Perú</p>
-                <a className="email" href="mailto:rodrigo.dulanto@pucp.edu.pe">
+                <a
+                  className="email"
+                  href="mailto:rodrigo.dulanto@pucp.edu.pe"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   rodrigo.dulanto@pucp.edu.pe
                 </a>
-                <a
-                  className="linkedin-url"
-                  href="/www.linkedin.com/in/rodrigodulanto"
+                <Link
+                  target="_blank"
+                  to={"//www.linkedin.com/in/rodrigodulanto"}
+                  rel="noreferrer"
                 >
                   Ver LinkedIn
-                </a>
+                </Link>
               </div>
             </div>
             <div className="results__main__tabs">

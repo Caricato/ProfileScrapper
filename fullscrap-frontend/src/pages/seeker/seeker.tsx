@@ -1,14 +1,47 @@
+// The above component needs to know how to access the Relay environment, and we
+// need to specify a fallback in case it suspends:
+// - <RelayEnvironmentProvider> tells child components how to talk to the current
+//   Relay Environment instance
+// - <Suspense> specifies a fallback in case a child suspends.
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/button/button";
 import Search from "../../components/search/search";
 import "./seeker.scss";
+import { graphql } from "babel-plugin-relay/macro";
+const { commitMutation, useMutation } = require("react-relay");
 
 const Seeker = () => {
   const navigate = useNavigate();
+  //  Mutation
+  const [commit, isLoading] = useMutation(graphql`
+    mutation seekerLinkedInProfileGetMutation($url: String!) {
+      getLinkedin(input: { url: $url }) {
+        profile {
+          name
+          imgSrc
+          currentLocation
+          email
+        }
+      }
+    }
+  `);
 
-  const onClickSearch = () => {
-    navigate("result");
+  const onClickSearch = (url: string) => {
+    commit({
+      variables: { url: url },
+      onCompleted(data: any) {
+        console.log(data);
+        if (data.getLinkedin) navigate("result");
+        else alert("Error cargando");
+      },
+      onError(data: any) {
+        alert("Error");
+      },
+    });
   };
+
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="seeker">
@@ -21,7 +54,7 @@ const Seeker = () => {
       </main>
       <footer>
         <p>
-          Hecho con &lt;3 por <strong>FullStackOverflow</strong>
+          Hecho con ❤️ por <strong>FullStackOverflow</strong>
         </p>
       </footer>
     </div>

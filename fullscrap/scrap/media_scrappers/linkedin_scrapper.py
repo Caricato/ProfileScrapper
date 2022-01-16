@@ -40,7 +40,7 @@ class LinkedinScrapper(Thread):
         # Login in LinkedIn
         self.browser.get('https://www.linkedin.com/login')
 
-        self.browser.find_element(By.ID, "username").send_keys("mataj2208@gmail.com")
+        self.browser.find_element(By.ID, "username").send_keys("mataj2207@gmail.com")
         self.browser.find_element(By.ID, "password").send_keys("fullstackoverflow")
         self.browser.find_elements(By.XPATH, "//*[@id=\"organic-div\"]/form/div[3]/button")[0].click()
 
