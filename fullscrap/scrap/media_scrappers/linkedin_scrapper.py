@@ -100,6 +100,8 @@ class LinkedinScrapper(Thread):
         profile_name = self.scrape_profile_name()
         # print(profile_name)
 
+        summary = self.scrape_summary()
+
         current_designation = self.scrape_current_designation()
         # print(current_designation)
 
@@ -131,6 +133,7 @@ class LinkedinScrapper(Thread):
             name=profile_name,
             profile_url=profile_linkedin_url,
             image_src=image_src,
+            summary=summary,
             current_designation=current_designation,
             current_location=current_location,
             email=detail_info.email,
@@ -141,16 +144,20 @@ class LinkedinScrapper(Thread):
 
     def scrape_profile_name(self):
         # print("scrape profile name")
+        return self.browser.find_element(By.CSS_SELECTOR, "h1.text-heading-xlarge").get_attribute("innerText")
+
+    def scrape_summary(self):
         try:
             summary = self.browser.find_element(By.CSS_SELECTOR, ".pv-about-section div").get_attribute("innerText")
             summary = summary.replace("ver más", "")
+            print(summary)
         except Exception:
             try:
                 summary = self.browser.find_element(By.CSS_SELECTOR, ".pv-about-section div").get_attribute("innerText")
                 summary = summary.replace("ver más", "")
             except Exception:
                 summary = ''
-        return self.browser.find_element(By.CSS_SELECTOR, "h1.text-heading-xlarge").get_attribute("innerText")
+        return summary
 
     def scrape_profile_image(self):
         # print("scrape profile image")

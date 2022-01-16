@@ -67,12 +67,13 @@ class DetailProfile:
         self.github = github
 
 class Profile:
-    def __init__(self, name: str, image_src:str, profile_url:str,
+    def __init__(self, name: str, image_src:str, profile_url:str, summary:str,
                  current_designation:str,
                  current_location:str,
                  email: str, skills: [str], jobs: [Job], education:[]):
         self.name = name
         self.profile_url = profile_url
+        self.summary = summary
         self.image_src = image_src
         self.current_designation = current_designation
         self.current_location = current_location

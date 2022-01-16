@@ -35,6 +35,7 @@ def get_linkedin_profile(url):
         (profile, _) = LinkedinProfile.objects.get_or_create(name=profile_raw.name,
                                                              profile_url=url,
                                                              img_src=profile_raw.image_src,
+                                                             summary= profile_raw.summary,
                                                              current_location=profile_raw.current_location,
                                                              email=profile_raw.email)
         _get_skills(profile, profile_raw.skills)
