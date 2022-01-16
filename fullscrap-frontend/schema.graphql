@@ -20,6 +20,8 @@ input GetLinkedinInput {
 
 type GetLinkedinPayload {
   profile: LinkedinProfileNode
+  skills: [LinkedinSkillNode]
+  jobs: [LinkedinJobNode]
   clientMutationId: String
 }
 
@@ -38,12 +40,91 @@ type GitHubProfileNodeEdge {
   cursor: String!
 }
 
+type LinkedinJobNode implements Node {
+  id: ID!
+  designation: String!
+  company: String!
+  companyUrl: String!
+  companyImageUrl: String!
+  area: String!
+  fromMonth: String!
+  fromYear: String!
+  toMonth: String
+  toYear: String
+  linkedinprofileSet(
+    offset: Int
+    before: String
+    after: String
+    first: Int
+    last: Int
+    name: String
+  ): LinkedinProfileNodeConnection!
+}
+
+type LinkedinJobNodeConnection {
+  pageInfo: PageInfo!
+  edges: [LinkedinJobNodeEdge]!
+}
+
+type LinkedinJobNodeEdge {
+  node: LinkedinJobNode
+  cursor: String!
+}
+
 type LinkedinProfileNode implements Node {
   id: ID!
   name: String!
   imgSrc: String!
   currentLocation: String!
   email: String!
+  jobs(
+    offset: Int
+    before: String
+    after: String
+    first: Int
+    last: Int
+  ): LinkedinJobNodeConnection!
+  skills(
+    offset: Int
+    before: String
+    after: String
+    first: Int
+    last: Int
+    name: String
+  ): LinkedinSkillNodeConnection!
+}
+
+type LinkedinProfileNodeConnection {
+  pageInfo: PageInfo!
+  edges: [LinkedinProfileNodeEdge]!
+}
+
+type LinkedinProfileNodeEdge {
+  node: LinkedinProfileNode
+  cursor: String!
+}
+
+type LinkedinSkillNode implements Node {
+  id: ID!
+  name: String!
+  linkedinprofileSet(
+    offset: Int
+    before: String
+    after: String
+    first: Int
+    last: Int
+    name: String
+  ): LinkedinProfileNodeConnection!
+}
+
+type LinkedinSkillNodeConnection {
+  pageInfo: PageInfo!
+  edges: [LinkedinSkillNodeEdge]!
+}
+
+type LinkedinSkillNodeEdge {
+  node: LinkedinSkillNode
+  cursor: String!
 }
 
 type Mutations {
@@ -80,7 +161,25 @@ type PersonNodeEdge {
 
 type Query {
   person(id: ID!): PersonNode
-  allPeople(offset: Int, before: String, after: String, first: Int, last: Int, name: String, name_Icontains: String, name_Istartswith: String, email: String, email_Icontains: String): PersonNodeConnection
+  allPeople(
+    offset: Int
+    before: String
+    after: String
+    first: Int
+    last: Int
+    name: String
+    name_Icontains: String
+    name_Istartswith: String
+    email: String
+    email_Icontains: String
+  ): PersonNodeConnection
   githubProfile(id: ID!): GitHubProfileNode
-  allGithubProfiles(offset: Int, before: String, after: String, first: Int, last: Int, name: String): GitHubProfileNodeConnection
+  allGithubProfiles(
+    offset: Int
+    before: String
+    after: String
+    first: Int
+    last: Int
+    name: String
+  ): GitHubProfileNodeConnection
 }
