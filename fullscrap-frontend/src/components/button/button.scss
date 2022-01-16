@@ -1,0 +1,43 @@
+.button {
+  cursor: pointer;
+
+  p {
+    color: #ffffff;
+  }
+
+  &--primary {
+    border: none;
+    background-color: #d8323a;
+    &:hover {
+      background-color: #af2b32;
+    }
+  }
+
+  &--secondary {
+    border: 3px solid #ffffff;
+    background-color: transparent;
+  }
+
+  &--large {
+    min-width: 500px;
+    padding: 22px 48px;
+    border-radius: 60px;
+
+    p {
+      font-weight: 500;
+      font-size: 28px;
+      text-transform: uppercase;
+    }
+  }
+
+  &--small {
+    min-width: 280px;
+    padding: 8px 20px;
+    border-radius: 62px;
+
+    p {
+      font-weight: 500;
+      font-size: 18px;
+    }
+  }
+}

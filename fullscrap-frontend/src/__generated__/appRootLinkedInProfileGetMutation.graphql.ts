@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a30281a4ead871d3aeb46f7f39b73623>>
+ * @generated SignedSource<<9cc532fddc4e88cb10ded406f45df61b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -19,8 +19,16 @@ export type appRootLinkedInProfileGetMutation$data = {
       readonly name: string;
       readonly imgSrc: string;
       readonly currentLocation: string;
-      readonly email: string;
     } | null;
+    readonly skills: ReadonlyArray<{
+      readonly name: string;
+    } | null> | null;
+    readonly jobs: ReadonlyArray<{
+      readonly designation: string;
+    } | null> | null;
+    readonly education: ReadonlyArray<{
+      readonly degree: string;
+    } | null> | null;
   } | null;
 };
 export type appRootLinkedInProfileGetMutationResponse = appRootLinkedInProfileGetMutation$data;
@@ -75,7 +83,21 @@ v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "email",
+  "name": "designation",
+  "storageKey": null
+},
+v6 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "degree",
+  "storageKey": null
+},
+v7 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
   "storageKey": null
 };
 return {
@@ -103,8 +125,43 @@ return {
             "selections": [
               (v2/*: any*/),
               (v3/*: any*/),
-              (v4/*: any*/),
+              (v4/*: any*/)
+            ],
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "LinkedinSkillNode",
+            "kind": "LinkedField",
+            "name": "skills",
+            "plural": true,
+            "selections": [
+              (v2/*: any*/)
+            ],
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "LinkedinJobNode",
+            "kind": "LinkedField",
+            "name": "jobs",
+            "plural": true,
+            "selections": [
               (v5/*: any*/)
+            ],
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "LinkedinEducationNode",
+            "kind": "LinkedField",
+            "name": "education",
+            "plural": true,
+            "selections": [
+              (v6/*: any*/)
             ],
             "storageKey": null
           }
@@ -140,14 +197,46 @@ return {
               (v2/*: any*/),
               (v3/*: any*/),
               (v4/*: any*/),
+              (v7/*: any*/)
+            ],
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "LinkedinSkillNode",
+            "kind": "LinkedField",
+            "name": "skills",
+            "plural": true,
+            "selections": [
+              (v2/*: any*/),
+              (v7/*: any*/)
+            ],
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "LinkedinJobNode",
+            "kind": "LinkedField",
+            "name": "jobs",
+            "plural": true,
+            "selections": [
               (v5/*: any*/),
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "id",
-                "storageKey": null
-              }
+              (v7/*: any*/)
+            ],
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "LinkedinEducationNode",
+            "kind": "LinkedField",
+            "name": "education",
+            "plural": true,
+            "selections": [
+              (v6/*: any*/),
+              (v7/*: any*/)
             ],
             "storageKey": null
           }
@@ -157,16 +246,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e532af657a773e2a8d555b10e6e67624",
+    "cacheID": "e0006191847ec7a9b82b4d89ed02ba22",
     "id": null,
     "metadata": {},
     "name": "appRootLinkedInProfileGetMutation",
     "operationKind": "mutation",
-    "text": "mutation appRootLinkedInProfileGetMutation(\n  $url: String!\n) {\n  getLinkedin(input: {url: $url}) {\n    profile {\n      name\n      imgSrc\n      currentLocation\n      email\n      id\n    }\n  }\n}\n"
+    "text": "mutation appRootLinkedInProfileGetMutation(\n  $url: String!\n) {\n  getLinkedin(input: {url: $url}) {\n    profile {\n      name\n      imgSrc\n      currentLocation\n      id\n    }\n    skills {\n      name\n      id\n    }\n    jobs {\n      designation\n      id\n    }\n    education {\n      degree\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "9541d1dddafec0a7d3f8179ec612c400";
+(node as any).hash = "a77b58d3016dd72fefb56489371ca7ab";
 
 export default node;

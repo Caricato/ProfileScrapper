@@ -7,6 +7,7 @@ import { graphql } from "babel-plugin-relay/macro";
 import React from "react";
 import { RelayEnvironmentProvider } from "react-relay";
 import { loadQuery } from "react-relay/hooks";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import RelayEnvironment from "./relay/RelayEnvironment";
 const { Suspense } = React;
@@ -19,7 +20,15 @@ export const AppRootLinkedInProfileGetMutation = graphql`
         name
         imgSrc
         currentLocation
-        email
+      }
+      skills {
+        name
+      }
+      jobs {
+        designation
+      }
+      education {
+        degree
       }
     }
   }
@@ -38,9 +47,11 @@ const preloadedQuery = loadQuery(
 function AppRoot(props: any) {
   return (
     <RelayEnvironmentProvider environment={RelayEnvironment}>
-      <Suspense fallback={"Loading..."}>
-        <App preloadedQuery={preloadedQuery} />
-      </Suspense>
+      <BrowserRouter>
+        <Suspense fallback={"Loading..."}>
+          <App preloadedQuery={preloadedQuery} />
+        </Suspense>
+      </BrowserRouter>
     </RelayEnvironmentProvider>
   );
 }

@@ -22,6 +22,7 @@ type GetLinkedinPayload {
   profile: LinkedinProfileNode
   skills: [LinkedinSkillNode]
   jobs: [LinkedinJobNode]
+  education: [LinkedinEducationNode]
   clientMutationId: String
 }
 
@@ -37,6 +38,36 @@ type GitHubProfileNodeConnection {
 
 type GitHubProfileNodeEdge {
   node: GitHubProfileNode
+  cursor: String!
+}
+
+type LinkedinEducationNode implements Node {
+  id: ID!
+  degree: String!
+  major: String!
+  grade: String!
+  fromYear: String!
+  toYear: String!
+  university: String!
+  universityUrl: String!
+  universityImageUrl: String!
+  linkedinprofileSet(
+    offset: Int
+    before: String
+    after: String
+    first: Int
+    last: Int
+    name: String
+  ): LinkedinProfileNodeConnection!
+}
+
+type LinkedinEducationNodeConnection {
+  pageInfo: PageInfo!
+  edges: [LinkedinEducationNodeEdge]!
+}
+
+type LinkedinEducationNodeEdge {
+  node: LinkedinEducationNode
   cursor: String!
 }
 
@@ -92,6 +123,13 @@ type LinkedinProfileNode implements Node {
     last: Int
     name: String
   ): LinkedinSkillNodeConnection!
+  education(
+    offset: Int
+    before: String
+    after: String
+    first: Int
+    last: Int
+  ): LinkedinEducationNodeConnection!
 }
 
 type LinkedinProfileNodeConnection {
