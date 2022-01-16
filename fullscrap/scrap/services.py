@@ -13,6 +13,11 @@ def get_profile(user_name):
 
 
 def get_linkedin_profile(url):
+    try:
+        profile = LinkedinProfile.objects.get(profile_url=url)
+    except Exception:
+        profile = None
+    if profile is not None: return profile
     s = LinkedinScrapper(linkedin_username="mataj2207@gmail.com",
                          linkedin_password="fullstackoverflow",
                          profile_url=url,
@@ -26,14 +31,18 @@ def get_linkedin_profile(url):
     gt = GitHubScrapper()
     github = gt.get_by_username("rdulantoc")
     profile_raw = s.result.profile
-    (profile, _) = LinkedinProfile.objects.get_or_create(name=profile_raw.name,
-                                                         img_src=profile_raw.image_src,
-                                                         current_location=profile_raw.current_location,
-                                                         email=profile_raw.email)
-    _get_skills(profile, profile_raw.skills)
-    _get_jobs(profile, profile_raw.jobs)
-    _get_education(profile, profile_raw.education)
-    return profile
+    if profile_raw is not None:
+        (profile, _) = LinkedinProfile.objects.get_or_create(name=profile_raw.name,
+                                                             profile_url=url,
+                                                             img_src=profile_raw.image_src,
+                                                             current_location=profile_raw.current_location,
+                                                             email=profile_raw.email)
+        _get_skills(profile, profile_raw.skills)
+        _get_jobs(profile, profile_raw.jobs)
+        _get_education(profile, profile_raw.education)
+        return profile
+    else:
+        return None
 
 
 def _get_skills(profile, skills_raw):
@@ -61,14 +70,13 @@ def _get_jobs(profile, jobs_raw):
 def _get_education(profile, ed_raw):
     for item in ed_raw:
         ed = LinkedinEducation(degree=item["degree"],
-                                  major=item["major"],
-                                  grade=item["grade"],
-                                  from_year=item["from_year"],
-                                  to_year=item["to_year"],
-                                  university=item["university"],
-                                  university_url=item["university_url"],
-                                  university_image_url=item["university_image_url"])
+                               major=item["major"],
+                               grade=item["grade"],
+                               from_year=item["from_year"],
+                               to_year=item["to_year"],
+                               university=item["university"],
+                               university_url=item["university_url"],
+                               university_image_url=item["university_image_url"])
         ed.save()
         profile.education.add(ed)
 
-    print(profile.education.all())

@@ -19,14 +19,19 @@ import {
   faTwitter,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import ModalSearch from "../../components/modal-search/modal-search";
 
 export const Results = () => {
   const [value, setValue] = useState(0);
+  const [isModalActive, setIsModalActive] = useState(false);
+  const { url } = useParams();
+  const [linkedinUrl, setLinkedinUrl] = useState("");
 
   useEffect(() => {
-    console.log(value);
-  }, [value]);
+    console.log(atob(url || ""));
+    setLinkedinUrl(atob(url || ""));
+  }, [url]);
 
   const tabs = [
     {
@@ -108,6 +113,15 @@ export const Results = () => {
     setValue(newValue);
   };
 
+  useEffect(() => {
+    console.log("cambio", isModalActive);
+  }, [isModalActive]);
+
+  const onClickNewSearch = () => {
+    console.log("click jaaa");
+    setIsModalActive(!isModalActive);
+  };
+
   return (
     <div className="results">
       <div className="results__container">
@@ -118,7 +132,9 @@ export const Results = () => {
               Hecho con ❤️ por <strong>FullStackOverflow</strong>
             </p>
           </div>
-          <Button size="small">Nueva búsqueda</Button>
+          <Button size="small" onClick={onClickNewSearch}>
+            Nueva búsqueda
+          </Button>
         </header>
 
         <main className="results__main">
@@ -257,6 +273,12 @@ export const Results = () => {
           </div>
         </main>
       </div>
+      {isModalActive && (
+        <ModalSearch
+          onClose={() => setIsModalActive(!isModalActive)}
+          isOpen={isModalActive}
+        />
+      )}
     </div>
   );
 };

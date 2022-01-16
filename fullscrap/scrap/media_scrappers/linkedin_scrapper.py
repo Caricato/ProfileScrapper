@@ -11,6 +11,7 @@ import time
 from .utils import Profile, DetailProfile, ScrapingException, is_url_valid, HumanCheckException, wait_for_loading, \
     wait_for_scrolling, \
     Job, AuthenticationException, Location, Company, ScrapingResult
+from ..models import LinkedinProfile
 
 
 class LinkedinScrapper(Thread):
@@ -46,9 +47,14 @@ class LinkedinScrapper(Thread):
 
         if not self.browser.current_url == "https://www.linkedin.com/feed/":
             # print(self.browser.current_url)
-            time.sleep(40)
-            raise AuthenticationException()
-
+            time.sleep(20)
+            if self.browser.current_url == "https://www.linkedin.com/check/bounced-email":
+                self.browser.find_elements(By.CSS_SELECTOR, ".secondary-action-new")[0].click()
+                time.sleep(20)
+                if not self.browser.current_url == "https://www.linkedin.com/feed/":
+                    raise AuthenticationException()
+            else:
+                raise AuthenticationException()
         self.result = ScrapingResult(self.profile_url, self.scrape_profile(self.profile_url))
 
         # Closing the Chrome instance
@@ -65,8 +71,9 @@ class LinkedinScrapper(Thread):
             # print("Another try will be performed within 10 seconds...")
             time.sleep(waiting_time)
 
-            profile = self.scrape_profile(linkedin_url, int(waiting_time * 1.5))
-
+            profile = LinkedinProfile.objects.get(profile_url=linkedin_url)
+            if profile is None:
+                profile = self.scrape_profile(linkedin_url, int(waiting_time * 1.5))
         except ScrapingException:
             profile = None
 
@@ -106,12 +113,14 @@ class LinkedinScrapper(Thread):
         # email = self.scrape_email()
         # print(email)
 
+        print("INTO EXPERIENCES")
         experiences = self.experience()
         # print(experiences)
-
+        print("INTO EDUCATION")
         education = self.education()
         # print(education)
 
+        print("INTO SKILLS")
         skills = self.scrape_skills()
         # print(skills)
 
@@ -120,6 +129,7 @@ class LinkedinScrapper(Thread):
 
         return Profile(
             name=profile_name,
+            profile_url=profile_linkedin_url,
             image_src=image_src,
             current_designation=current_designation,
             current_location=current_location,
@@ -131,6 +141,15 @@ class LinkedinScrapper(Thread):
 
     def scrape_profile_name(self):
         # print("scrape profile name")
+        try:
+            summary = self.browser.find_element(By.CSS_SELECTOR, ".pv-about-section div").get_attribute("innerText")
+            summary = summary.replace("ver más", "")
+        except Exception:
+            try:
+                summary = self.browser.find_element(By.CSS_SELECTOR, ".pv-about-section div").get_attribute("innerText")
+                summary = summary.replace("ver más", "")
+            except Exception:
+                summary = ''
         return self.browser.find_element(By.CSS_SELECTOR, "h1.text-heading-xlarge").get_attribute("innerText")
 
     def scrape_profile_image(self):
@@ -199,6 +218,7 @@ class LinkedinScrapper(Thread):
             try:
                 data['designation'] = item.find_element(By.CSS_SELECTOR, ".pv-entity__summary-info > h3").get_attribute(
                     "innerText")
+
                 all_text = item.find_element(By.CSS_SELECTOR, ".pv-entity__secondary-title").get_attribute("innerText")
                 child_text = item.find_element(By.CSS_SELECTOR, ".pv-entity__secondary-title > span").get_attribute(
                     "innerText")
@@ -241,20 +261,32 @@ class LinkedinScrapper(Thread):
                 data['degree'] = item.find_element(By.CSS_SELECTOR,
                                                    ".pv-entity__degree-name .pv-entity__comma-item").get_attribute(
                     "innerText")
+                print("HOLA 1")
                 data['major'] = item.find_element(By.CSS_SELECTOR,
                                                   ".pv-entity__fos.t-14.t-black.t-normal > span.pv-entity__comma-item").get_attribute(
                     "innerText")
-                data['grade'] = item.find_element(By.CSS_SELECTOR,
-                                                  ".pv-entity__grade .pv-entity__comma-item").get_attribute("innerText")
-                data['from_year'], data['to_year'] = item.find_element(By.CSS_SELECTOR,
-                                                                       ".pv-entity__dates > span:last-child").get_attribute(
-                    "innerText").split(" – ")
+                print("HOLA 2")
+
+                data['grade'] = ''
+                grade_elements = item.find_elements(By.CSS_SELECTOR,
+                                                    ".pv-entity__comma-item")
+                for item in grade_elements:
+                    aux = item.get_attribute("innerText")
+                    data['grade'] += aux
+                print("HOLA 3")
+                aux_dates = item.find_element(By.CSS_SELECTOR, ".pv-entity__dates > span:last-child")
+                print(aux_dates)
+                data['from_year'], data['to_year'] = aux_dates.split("–")
+                print("HOLA 4")
                 data['university'] = item.find_element(By.CSS_SELECTOR, ".pv-entity__school-name").get_attribute(
                     "innerText")
+                print("HOLA 5")
                 data['university_url'] = item.find_element(By.CSS_SELECTOR,
                                                            ".pv-profile-section__card-item a.ember-view").get_attribute(
                     "href")
-                data['university_image_url'] = item.find_element(By.CSS_SELECTOR, ".pv-entity__logo > img").get_attribute(
+                print("HOLA 6")
+                data['university_image_url'] = item.find_element(By.CSS_SELECTOR,
+                                                                 ".pv-entity__logo > img").get_attribute(
                     "src")
                 details.append(data)
             except WebDriverException:

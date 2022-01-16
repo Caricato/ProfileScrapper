@@ -8,7 +8,7 @@ function App(props: any) {
     <div className="App">
       <Routes>
         <Route path="/" element={<LazySeeker />} />
-        <Route path="result" element={<LazyResults />} />
+        <Route path="result/:url" element={<LazyResults />} />
       </Routes>
     </div>
   );

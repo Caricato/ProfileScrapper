@@ -10,7 +10,12 @@ const Search = ({ onSearch }: ISearch) => {
   const [url, setUrl] = useState("");
 
   const onSearchText = () => {
-    onSearch(url);
+    if (
+      url.startsWith("https://www.linkedin.com/in/") ||
+      url.startsWith("www.linkedin.com/in/")
+    )
+      onSearch(url);
+    else alert("Url no válido");
   };
 
   return (

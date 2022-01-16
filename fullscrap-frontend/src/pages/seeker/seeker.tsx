@@ -23,6 +23,12 @@ const Seeker = () => {
           currentLocation
           email
         }
+        skills {
+          name
+        }
+        education {
+          degree
+        }
       }
     }
   `);
@@ -32,7 +38,7 @@ const Seeker = () => {
       variables: { url: url },
       onCompleted(data: any) {
         console.log(data);
-        if (data.getLinkedin) navigate("result");
+        if (data.getLinkedin) navigate(`result/${btoa(url)}`);
         else alert("Error cargando");
       },
       onError(data: any) {
